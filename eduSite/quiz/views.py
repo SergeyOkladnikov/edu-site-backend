@@ -21,3 +21,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
 
+
+class QuestionBriefViewSet(QuestionViewSet):
+    serializer_class = QuestionBriefSerializer
+
+
+class QuizBriefViewSet(QuizViewSet):
+    serializer_class = QuizBriefSerializer
+

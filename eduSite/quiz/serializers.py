@@ -47,6 +47,14 @@ class QuestionInQuizSerializer(QuestionSerializer):
         fields = ['id', 'text', 'answers']
 
 
+class QuestionBriefSerializer(serializers.ModelSerializer):
+    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Question
+        fields = ['id', 'text', 'quiz', 'answers']
+
+
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionInQuizSerializer(many=True)
 
@@ -78,3 +86,11 @@ class QuizSerializer(serializers.ModelSerializer):
                 for answer_data in answers_data:
                     Answer.objects.create(question=question, **answer_data)
         return instance
+
+
+class QuizBriefSerializer(serializers.ModelSerializer):
+    questions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Quiz
+        fields = ['id', 'name', 'connection_code', 'questions']
