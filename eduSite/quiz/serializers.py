@@ -19,7 +19,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'quiz', 'answers']
+        fields = ['id', 'text', 'order', 'quiz', 'answers']
 
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
@@ -44,7 +44,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class QuestionInQuizSerializer(QuestionSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'text', 'answers']
+        fields = ['id', 'text', 'order', 'answers']
 
 
 class QuestionBriefSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class QuestionBriefSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'quiz', 'answers']
+        fields = ['id', 'text', 'order', 'quiz', 'answers']
 
 
 class QuizSerializer(serializers.ModelSerializer):
@@ -60,7 +60,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['id', 'name', 'connection_code', 'questions']
+        fields = ['id', 'connection_code', 'questions']
 
     def create(self, validated_data):
         questions_data = validated_data.pop('questions')
@@ -74,7 +74,6 @@ class QuizSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         questions_data = validated_data.get('questions', None)
-        instance.name = validated_data.get('name', instance.name)
         instance.connection_code = validated_data.get('connection_code', instance.connection_code)
         instance.save()
         if questions_data:
@@ -93,4 +92,4 @@ class QuizBriefSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['id', 'name', 'connection_code', 'questions']
+        fields = ['id', 'connection_code', 'questions']

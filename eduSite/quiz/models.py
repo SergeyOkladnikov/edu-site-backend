@@ -2,15 +2,15 @@ from django.db import models
 
 
 class Quiz(models.Model):
-    name = models.CharField(max_length=200)
     connection_code = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.connection_code)
 
 
 class Question(models.Model):
     text = models.CharField(max_length=300)
+    order = models.IntegerField()
     quiz = models.ForeignKey('Quiz', related_name='questions', on_delete=models.CASCADE)
 
     def __str__(self):

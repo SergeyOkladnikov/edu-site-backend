@@ -3,7 +3,7 @@ from .models import *
 
 
 class QuizAdmin(admin.ModelAdmin):
-    list_display = ('name', 'connection_code')
+    list_display = ('connection_code',)
 
 
 class QuestionAdmin(admin.ModelAdmin):
