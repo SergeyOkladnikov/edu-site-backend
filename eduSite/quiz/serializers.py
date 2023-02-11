@@ -8,18 +8,18 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'is_correct', 'question']
 
 
-class AnswerInQuestionSerializer(AnswerSerializer):
+class AnswerNestedSerializer(AnswerSerializer):
     class Meta:
         model = Answer
         fields = ['id', 'text', 'is_correct']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    answers = AnswerInQuestionSerializer(many=True)
+    answers = AnswerNestedSerializer(many=True)
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'quiz', 'answers']
+        fields = ['id', 'text', 'order', 'score', 'quiz', 'answers']
 
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
@@ -41,10 +41,10 @@ class QuestionSerializer(serializers.ModelSerializer):
         return instance
 
 
-class QuestionInQuizSerializer(QuestionSerializer):
+class QuestionNestedSerializer(QuestionSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'answers']
+        fields = ['id', 'text', 'order', 'score', 'answers']
 
 
 class QuestionBriefSerializer(serializers.ModelSerializer):
@@ -56,7 +56,7 @@ class QuestionBriefSerializer(serializers.ModelSerializer):
 
 
 class QuizSerializer(serializers.ModelSerializer):
-    questions = QuestionInQuizSerializer(many=True)
+    questions = QuestionNestedSerializer(many=True)
 
     class Meta:
         model = Quiz
@@ -93,3 +93,24 @@ class QuizBriefSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
         fields = ['id', 'connection_code', 'questions']
+
+
+class QuestionResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionResult
+        fields = '__all__'
+
+
+class QuestionResultNestedSerializer(QuestionResultSerializer):
+    class Meta:
+        model = QuestionResult
+        exclude = ['quiz_result']
+
+
+class QuizResultSerializer(serializers.ModelSerializer):
+    question_results = QuestionResultNestedSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = QuizResult
+        fields = '__all__'
+

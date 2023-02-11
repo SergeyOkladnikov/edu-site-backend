@@ -29,3 +29,13 @@ class QuestionBriefViewSet(QuestionViewSet):
 class QuizBriefViewSet(QuizViewSet):
     serializer_class = QuizBriefSerializer
 
+
+class QuestionResultViewSet(viewsets.ModelViewSet):
+    queryset = QuestionResult.objects.all()
+    serializer_class = QuestionResultSerializer
+
+
+class QuizResultViewSet(viewsets.ModelViewSet):
+    queryset = QuizResult.objects.all()
+    serializer_class = QuizResultSerializer
+
