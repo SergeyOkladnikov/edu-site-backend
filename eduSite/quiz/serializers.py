@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .models import *
 
@@ -5,58 +6,79 @@ from .models import *
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        fields = ['id', 'text', 'is_correct', 'question']
-
-
-class AnswerNestedSerializer(AnswerSerializer):
-    class Meta:
-        model = Answer
         fields = ['id', 'text', 'is_correct']
+
+    def create(self, validated_data):
+        question = get_object_or_404(Question, pk=self.context['view'].kwargs['question'])
+        answer = Answer.objects.create(question=question, **validated_data)
+        if answer.is_correct:
+            question.correct_answers.add(answer)
+        return answer
+
+    def update(self, instance, validated_data):
+        question = get_object_or_404(Question, pk=self.context['view'].kwargs['question'])
+        instance.text = validated_data.get('text', instance.text)
+        instance.is_correct = validated_data.get('is_correct', instance.is_correct)
+        instance.save()
+        if instance.is_correct:
+            question.correct_answers.add(instance)
+        else:
+            question.correct_answers.remove(instance)
+
+        return instance
+
+
+# class AnswerNestedSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Answer
+#         fields = ['id', 'text', 'is_correct']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    answers = AnswerNestedSerializer(many=True)
+    answers = AnswerSerializer(many=True)
+    correct_answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'score', 'quiz', 'answers']
+        fields = ['id', 'text', 'order', 'score', 'answers', 'correct_answers']
 
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
-        question = Question.objects.create(**validated_data)
+        quiz = get_object_or_404(Quiz, pk=self.context['view'].kwargs['quiz'])
+        question = Question.objects.create(quiz=quiz, **validated_data)
         for answer_data in answers_data:
-            Answer.objects.create(question=question, **answer_data)
+            answer = Answer.objects.create(question=question, **answer_data)
+            if answer.is_correct:
+                question.correct_answers.add(answer)
         return question
 
     def update(self, instance, validated_data):
         answers_data = validated_data.get('answers', None)
         instance.text = validated_data.get('text', instance.text)
-        instance.quiz = validated_data.get('quiz', instance.quiz)
-        instance.save()
+        # instance.quiz = get_object_or_404(Quiz, pk=self.context['view'].kwargs['quiz'])
+        # instance.save()
+        instance.correct_answers.clear()
         if answers_data:
             for item in Answer.objects.filter(question=instance):
                 item.delete()
             for answer_data in answers_data:
-                Answer.objects.create(question=instance, **answer_data)
+                answer = Answer.objects.create(question=instance, **answer_data)
+                if answer.is_correct:
+                    instance.correct_answers.add(answer)
+
+        instance.save()
+
         return instance
 
 
-class QuestionNestedSerializer(QuestionSerializer):
-    class Meta:
-        model = Question
-        fields = ['id', 'text', 'order', 'score', 'answers']
-
-
-class QuestionBriefSerializer(serializers.ModelSerializer):
-    answers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
-    class Meta:
-        model = Question
-        fields = ['id', 'text', 'order', 'quiz', 'answers']
+# class QuestionNestedSerializer(QuestionSerializer):
+#     class Meta:
+#         model = Question
+#         fields = ['id', 'text', 'order', 'score', 'answers', 'correct_answers']
 
 
 class QuizSerializer(serializers.ModelSerializer):
-    questions = QuestionNestedSerializer(many=True)
+    questions = QuestionSerializer(many=True)
 
     class Meta:
         model = Quiz
@@ -69,7 +91,9 @@ class QuizSerializer(serializers.ModelSerializer):
             answers_data = question_data.pop('answers')
             question = Question.objects.create(quiz=quiz, **question_data)
             for answer_data in answers_data:
-                Answer.objects.create(question=question, **answer_data)
+                answer = Answer.objects.create(question=question, **answer_data)
+                if answer.is_correct:
+                    question.correct_answers.add(answer)
         return quiz
 
     def update(self, instance, validated_data):
@@ -83,34 +107,43 @@ class QuizSerializer(serializers.ModelSerializer):
                 answers_data = question_data.pop('answers')
                 question = Question.objects.create(quiz=instance, **question_data)
                 for answer_data in answers_data:
-                    Answer.objects.create(question=question, **answer_data)
+                    answer = Answer.objects.create(question=question, **answer_data)
+                    if answer.is_correct:
+                        question.correct_answers.add(answer)
         return instance
 
 
-class QuizBriefSerializer(serializers.ModelSerializer):
-    questions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+class AnswerPartialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id', 'text', 'question']
+
+
+class AnswerPartialNestedSerializer(AnswerPartialSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id', 'text']
+
+
+class QuestionPartialSerializer(serializers.ModelSerializer):
+    answers = AnswerPartialNestedSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Question
+        fields = ['id', 'text', 'order', 'score', 'quiz', 'answers']
+
+
+class QuestionPartialNestedSerializer(QuestionPartialSerializer):
+    class Meta:
+        model = Question
+        fields = ['id', 'text', 'order', 'score', 'answers']
+
+
+class QuizPartialSerializer(serializers.ModelSerializer):
+    questions = QuestionPartialNestedSerializer(many=True, read_only=True)
 
     class Meta:
         model = Quiz
-        fields = ['id', 'connection_code', 'questions']
+        fields = ['connection_code', 'questions']
 
-
-class QuestionResultSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuestionResult
-        fields = '__all__'
-
-
-class QuestionResultNestedSerializer(QuestionResultSerializer):
-    class Meta:
-        model = QuestionResult
-        exclude = ['quiz_result']
-
-
-class QuizResultSerializer(serializers.ModelSerializer):
-    question_results = QuestionResultNestedSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = QuizResult
-        fields = '__all__'
 

@@ -3,16 +3,15 @@ from .models import *
 
 
 class QuizAdmin(admin.ModelAdmin):
-    list_display = ('connection_code',)
+    list_display = ('id', 'connection_code')
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'quiz')
+    list_display = ('id', 'text', 'quiz')
 
 
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('text', 'is_correct', 'question')
-    list_editable = ('is_correct',)
+    list_display = ('id', 'text', 'question')
 
 
 admin.site.register(Quiz, QuizAdmin)

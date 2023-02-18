@@ -19,13 +19,12 @@ from rest_framework import routers
 from quiz.views import *
 
 router = routers.SimpleRouter()
-router.register(r'quizzes', QuizViewSet)
-router.register(r'questions', QuestionViewSet)
-router.register(r'answers', AnswerViewSet)
-router.register(r'briefly/questions', QuestionBriefViewSet)
-router.register(r'briefly/quizzes', QuizBriefViewSet)
-router.register(r'results/question', QuestionResultViewSet)
-router.register(r'results/quiz', QuizResultViewSet)
+router.register(r'partial/quizzes', QuizPartialViewSet)
+router.register(r'partial/questions', QuestionPartialViewSet)
+router.register(r'partial/answers', AnswerPartialViewSet)
+router.register(r'full/quizzes', QuizViewSet)
+router.register(r'full/quiz/(?P<quiz>.+)/questions', QuestionViewSet, basename='Question')
+router.register(r'full/quiz/(?P<quiz>.+)/question/(?P<question>.+)/answers', AnswerViewSet, basename='Answer')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
