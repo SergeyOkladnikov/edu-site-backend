@@ -34,6 +34,7 @@ class QuizResult(models.Model):
 
 
 class QuestionResult(models.Model):
+    chosen_answers = models.ManyToManyField('Answer', related_name='chosen_answers', blank=True)
     is_correct = models.BooleanField()
     question = models.ForeignKey('Question', related_name='results', on_delete=models.CASCADE)
     quiz_result = models.ForeignKey('QuizResult', related_name='question_results', on_delete=models.CASCADE)

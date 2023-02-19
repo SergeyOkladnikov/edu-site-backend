@@ -14,6 +14,7 @@ class QuizViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
+    # mixins.ListModelMixin,
     GenericViewSet
 ):
     queryset = Quiz.objects.all()
@@ -59,3 +60,19 @@ class QuizPartialViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'connection_code'
 
 
+class QuestionResultViewSet(mixins.CreateModelMixin,
+                            mixins.RetrieveModelMixin,
+                            mixins.DestroyModelMixin,
+                            mixins.ListModelMixin,
+                            GenericViewSet):
+    queryset = QuestionResult.objects.all()
+    serializer_class = QuestionResultSerializer
+
+
+class QuizResultViewSet(mixins.CreateModelMixin,
+                        mixins.RetrieveModelMixin,
+                        mixins.DestroyModelMixin,
+                        mixins.ListModelMixin,
+                        GenericViewSet):
+    queryset = QuizResult.objects.all()
+    serializer_class = QuizResultSerializer
