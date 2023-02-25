@@ -5,21 +5,17 @@
 1. Установка пакетов:
 ```
     python -m venv venv
-    
     venv\Scripts\activate
-  
     pip install django
-  
     pip install djangorestframework
 ```
 2. Использование
    
    Запуск тестового сервера:
-    
+```
     cd eduSite
-    
     python manage.py runserver
-      
+````
       (адрес тестового сервера - 127.0.0.1:8000, адрес на хостинге - quizbackend.pythonanywhere.com)
       
   Адреса API:
