@@ -3,7 +3,7 @@
 Версия Python 3.10.7
 
 1. Установка пакетов:
-
+```
     python -m venv venv
     
     venv\Scripts\activate
@@ -11,7 +11,7 @@
     pip install django
   
     pip install djangorestframework
-
+```
 2. Использование
    
    Запуск тестового сервера:
@@ -20,7 +20,7 @@
     
     python manage.py runserver
       
-      (адрес - 127.0.0.1:8000)
+      (адрес тестового сервера - 127.0.0.1:8000, адрес на хостинге - quizbackend.pythonanywhere.com)
       
   Адреса API:
   
@@ -29,10 +29,13 @@
       Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах (для проходящих тест)
 
         http://127.0.0.1:8000/api/partial/quizzes/
-
+        http://127.0.0.1:8000/api/partial/quizzes/{id}
+        
         http://127.0.0.1:8000/api/partial/questions/
+        http://127.0.0.1:8000/api/partial/questions/{id}
 
         http://127.0.0.1:8000/api/partial/answers/
+        http://127.0.0.1:8000/api/partial/answers/{id}
 
       2.
 
@@ -62,7 +65,7 @@
     
   Формат данных в JSON:
     
-Запросы POST, PUT:
+Запрос POST/PUT(где это возможно):
 
 Quiz:
 ```
@@ -136,7 +139,7 @@ Answer:
     "quiz_result":  6
 }
 ```
-PATCH позволяет обновлять, не упоминая все поля.
+PATCH аналогичен PUT, но позволяет не упоминать все поля
 
 
 
