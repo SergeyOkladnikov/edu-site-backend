@@ -3,6 +3,10 @@
 Версия Python 3.10.7
 
 1. Установка пакетов:
+
+    python -m venv venv
+    
+    venv\Scripts\activate
   
     pip install django
   
