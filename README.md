@@ -16,7 +16,7 @@
    
    Запуск тестового сервера:
     
-    cd EduSite
+    cd eduSite
     
     python manage.py runserver
       
