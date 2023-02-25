@@ -24,44 +24,44 @@
       
   Адреса API:
   
-      1.
+  1.
 
-      Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах (для проходящих тест)
+  Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах (для проходящих тест)
 
-        http://127.0.0.1:8000/api/partial/quizzes/
-        http://127.0.0.1:8000/api/partial/quizzes/{connection_code}
-        
-        http://127.0.0.1:8000/api/partial/questions/
-        http://127.0.0.1:8000/api/partial/questions/{id}
+    http://127.0.0.1:8000/api/partial/quizzes/
+    http://127.0.0.1:8000/api/partial/quizzes/{connection_code}
 
-        http://127.0.0.1:8000/api/partial/answers/
-        http://127.0.0.1:8000/api/partial/answers/{id}
+    http://127.0.0.1:8000/api/partial/questions/
+    http://127.0.0.1:8000/api/partial/questions/{id}
 
-      2.
+    http://127.0.0.1:8000/api/partial/answers/
+    http://127.0.0.1:8000/api/partial/answers/{id}
 
-      Запросы: GET, POST, PUT, PATCH.
+  2.
 
-        http://127.0.0.1:8000/api/full/quizzes/{quiz_id}/ - полные данные о тесте, получение только по id
+  Запросы: GET, POST, PUT, PATCH.
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/questions/ - полные данные о вопросах данного quiz
+    http://127.0.0.1:8000/api/full/quizzes/{quiz_id}/ - полные данные о тесте, получение только по id
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/questions/{question_id}/ - полные данные по вопросу
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/questions/ - полные данные о вопросах данного quiz
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/question/{question_id}/answers/
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/questions/{question_id}/ - полные данные по вопросу
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/question/{question_id}/answers/{answer_id}/ - аналогично, данные по ответам
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/question/{question_id}/answers/
 
-      3.
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/question/{question_id}/answers/{answer_id}/ - аналогично, данные по ответам
 
-      Запросы GET, POST
+  3.
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/
+  Запросы GET, POST
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/{id} - результаты quiz
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/question-results/
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/{id} - результаты quiz
 
-        http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/question-results/{id} - результаты по вопросам
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/question-results/
+
+    http://127.0.0.1:8000/api/full/quiz/{quiz_id}/results/question-results/{id} - результаты по вопросам
     
   Формат данных в JSON:
     
