@@ -29,7 +29,7 @@
       Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах (для проходящих тест)
 
         http://127.0.0.1:8000/api/partial/quizzes/
-        http://127.0.0.1:8000/api/partial/quizzes/{id}
+        http://127.0.0.1:8000/api/partial/quizzes/{connection_code}
         
         http://127.0.0.1:8000/api/partial/questions/
         http://127.0.0.1:8000/api/partial/questions/{id}
