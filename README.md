@@ -36,6 +36,8 @@
   2.
 
   Запросы: GET, POST, PUT, PATCH.
+  
+    http://127.0.0.1:8000/api/full/quizzes/ - только POST
 
     http://127.0.0.1:8000/api/full/quizzes/{quiz_id}/ - полные данные о тесте, получение только по id
 
