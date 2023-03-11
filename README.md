@@ -16,7 +16,7 @@
     cd eduSite
     python manage.py runserver
 ````
-      (адрес тестового сервера - 127.0.0.1:8000, адрес на хостинге - quizbackend.pythonanywhere.com)
+      (адрес тестового сервера - 127.0.0.1:8000)
       
   Адреса API:
   
