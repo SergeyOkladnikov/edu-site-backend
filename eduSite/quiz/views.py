@@ -74,5 +74,9 @@ class QuizResultViewSet(mixins.CreateModelMixin,
                         mixins.DestroyModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
-    queryset = QuizResult.objects.all()
+    # queryset = QuizResult.objects.all()
     serializer_class = QuizResultSerializer
+    def get_queryset(self):
+        quiz = get_object_or_404(Quiz, connection_code=self.kwargs['connection_code'])
+        return quiz.results.all()
+

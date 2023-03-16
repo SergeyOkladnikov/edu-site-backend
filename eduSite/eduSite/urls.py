@@ -18,17 +18,22 @@ from django.urls import path, include
 from rest_framework import routers
 from quiz.views import *
 
-router = routers.SimpleRouter()
-router.register(r'partial/quizzes', QuizPartialViewSet)
-router.register(r'partial/questions', QuestionPartialViewSet)
-router.register(r'partial/answers', AnswerPartialViewSet)
-router.register(r'full/quizzes', QuizViewSet)
-router.register(r'full/quiz/(?P<quiz>.+)/questions', QuestionViewSet, basename='Question')
-router.register(r'full/quiz/(?P<quiz>.+)/question/(?P<question>.+)/answers', AnswerViewSet, basename='Answer')
-router.register(r'full/quiz/(?P<quiz>.+)/results', QuizResultViewSet)
-router.register(r'full/quiz/(?P<quiz>.+)/question-results', QuestionResultViewSet)
+participant_router = routers.SimpleRouter()
+author_router = routers.SimpleRouter()
+
+participant_router.register(r'quizzes', QuizPartialViewSet)
+participant_router.register(r'questions', QuestionPartialViewSet)
+participant_router.register(r'answers', AnswerPartialViewSet)
+participant_router.register(r'quiz/(?P<connection_code>.+)/results', QuizResultViewSet, basename='QuizResult')
+participant_router.register(r'result/(?P<result>.+)/question-results', QuestionResultViewSet)
+
+author_router.register(r'quizzes', QuizViewSet)
+author_router.register(r'quiz/(?P<quiz>.+)/questions', QuestionViewSet, basename='Question')
+author_router.register(r'quiz/(?P<quiz>.+)/question/(?P<question>.+)/answers', AnswerViewSet, basename='Answer')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/participant/', include(participant_router.urls)),
+    path('api/author/', include(author_router.urls)),
 ]
