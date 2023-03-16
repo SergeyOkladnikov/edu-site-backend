@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'quiz/css/style.css' %}">
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <nav class="header-nav">
+                <a href="#" class="main-logo">
+                  <img src="{% static 'quiz/img/logo-2.svg' %}" class="nav-item logo">
+                </a>
+                <a href="#" class="nav-item create-test">Создать тест</a>
+                <a href="#" class="nav-item info">Как это работает?</a>
+                <a href="#" class="nav-item contacts">Контакты</a>
+            </nav>
+            <button class="connection-code hidden">
+                Код присоединения
+            </button>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <div class="footer-content">
+            <img class="footer-logo" src="{% static 'quiz/img/logo.svg' %}">
+            <div class="social-networks">
+                <a href="#"><img class="social-network" src="{% static 'quiz/img/telegram.svg' %}"></a>
+                <a href="#"><img class="social-network" src="{% static 'quiz/img/instagram.svg' %}"></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

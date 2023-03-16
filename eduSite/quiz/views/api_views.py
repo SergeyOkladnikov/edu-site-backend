@@ -3,8 +3,8 @@ from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import *
-from .serializers import *
+from quiz.models import *
+from quiz.serializers import *
 from rest_framework.views import APIView
 from rest_framework import generics
 
@@ -74,5 +74,9 @@ class QuizResultViewSet(mixins.CreateModelMixin,
                         mixins.DestroyModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
-    queryset = QuizResult.objects.all()
+    # queryset = QuizResult.objects.all()
     serializer_class = QuizResultSerializer
+    def get_queryset(self):
+        quiz = get_object_or_404(Quiz, connection_code=self.kwargs['connection_code'])
+        return quiz.results.all()
+

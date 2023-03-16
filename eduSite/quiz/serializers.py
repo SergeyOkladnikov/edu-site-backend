@@ -59,8 +59,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         instance.text = validated_data.get('text', instance.text)
         # instance.quiz = get_object_or_404(Quiz, pk=self.context['view'].kwargs['quiz'])
         # instance.save()
-        instance.correct_answers.clear()
         if answers_data:
+            instance.correct_answers.clear()
             for item in Answer.objects.filter(question=instance):
                 item.delete()
             for answer_data in answers_data:
@@ -193,4 +193,11 @@ class QuizResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuizResult
-        fields = ['id', 'participant', 'quiz', 'question_results']
+        fields = ['id', 'participant', 'question_results']
+
+    def create(self, validated_data):
+        quiz = get_object_or_404(Quiz, connection_code=self.context['view'].kwargs['connection_code'])
+        return QuizResult.objects.create(
+            quiz=quiz,
+            **validated_data
+        )
