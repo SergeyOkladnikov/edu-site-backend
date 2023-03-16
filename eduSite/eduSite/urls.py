@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from quiz.views import *
+from quiz.views.api_views import *
+from quiz.views.page_views import *
 
 participant_router = routers.SimpleRouter()
 author_router = routers.SimpleRouter()
@@ -36,4 +37,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/participant/', include(participant_router.urls)),
     path('api/author/', include(author_router.urls)),
+    path('', include('quiz.urls'))
 ]

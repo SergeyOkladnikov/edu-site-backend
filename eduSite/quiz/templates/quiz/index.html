@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <h2>{{connection_code}}</h2>
+    {% for q, answers in questions.items %}
+        <h3>{{q.text}}</h3>
+        {% for a in answers %}
+        <p>{{a.text}}</p>
+        {% endfor %}
+        <p></p>
+    {% endfor %}
+</body>
+</html>
