@@ -3,8 +3,8 @@ from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from .models import *
-from .serializers import *
+from quiz.models import *
+from quiz.serializers import *
 from rest_framework.views import APIView
 from rest_framework import generics
 
