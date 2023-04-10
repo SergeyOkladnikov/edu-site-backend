@@ -2,4 +2,82 @@
 {% load static %}
 
 {% block content %}
+<div class="quiz-constructor-container">
+                <div class="phone-wrapper">
+                    <div class="phone-preview">
+                        <output class="question-text" name="question-text" form="question-form">
+                            В каком году родился Иван Грозный?
+                        </output>
+                        <div class="answers">
+                            <output class="answer" id="answer-output-1" form="question-form">
+                                1530
+                            </output>
+                            <output class="answer" id="answer-output-2" form="question-form">
+                                1529
+                            </output>
+                            <output class="answer" id="answer-output-3" form="question-form">
+                                1528
+                            </output>
+                            <output class="answer" id="answer-output-4" form="question-form">
+                                1527
+                            </output>
+
+                        </div>
+                    </div>
+                    <div class="flipper creation-flipper">
+                        <button class="flip-arrow flip-left"></button>
+                        <div>
+                            <span class="current-question">1</span>/<span class="question-count">1</span>
+                        </div>
+                        <button class="flip-arrow flip-right"></button>
+                    </div>
+                </div>
+                <form class="construction-menu" id="question-form" autocomplete="off">
+                    <input type="text" name="new-question-text" id="q-text" class="new-question-text" placeholder="Введите текст вопроса...">
+                    <div class="add-answers">
+                        <div class="new-answer">
+                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
+                            <label class="radio-correct-label">
+                                <input type="radio" name="correct-question" checked>
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="new-answer">
+                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
+                            <label class="radio-correct-label">
+                                <input type="radio" name="correct-question">
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="new-answer">
+                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
+                            <label class="radio-correct-label">
+                                <input type="radio" name="correct-question">
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="new-answer">
+                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
+                            <label class="radio-correct-label">
+                                <input type="radio" name="correct-question">
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="button-delete" disabled>
+                            Удалить
+                        </button>
+                        <button class="button-save">
+                            Сохранить
+                        </button>
+                        <button class="full-preview-button">
+                            Предпросмотр
+                        </button>
+                    </div>
+                </form>
+            </div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'quiz/js/quiz-constructor.js' %}" type="module"></script>
 {% endblock %}

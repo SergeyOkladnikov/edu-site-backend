@@ -14,10 +14,10 @@
     <header>
         <div class="nav-container">
             <nav class="header-nav">
-                <a href="#" class="main-logo">
+                <a href="{% url 'home' %}" class="main-logo">
                   <img src="{% static 'quiz/img/logo-2.svg' %}" class="nav-item logo">
                 </a>
-                <a href="#" class="nav-item create-test">Создать тест</a>
+                <a href="{% url 'quiz_constructor' %}" class="nav-item create-test">Создать тест</a>
                 <a href="#" class="nav-item info">Как это работает?</a>
                 <a href="#" class="nav-item contacts">Контакты</a>
             </nav>
@@ -40,4 +40,6 @@
         </div>
     </footer>
 </body>
+{% block scripts %}
+{% endblock %}
 </html>
