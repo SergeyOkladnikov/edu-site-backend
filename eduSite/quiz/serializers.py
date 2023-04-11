@@ -42,7 +42,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'score', 'answers', 'correct_answers']
+        fields = ['id', 'text', 'score', 'answers', 'correct_answers']
 
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
@@ -132,13 +132,13 @@ class QuestionPartialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'score', 'quiz', 'answers']
+        fields = ['id', 'text', 'score', 'quiz', 'answers']
 
 
 class QuestionPartialNestedSerializer(QuestionPartialSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'text', 'order', 'score', 'answers']
+        fields = ['id', 'text', 'score', 'answers']
 
 
 class QuizPartialSerializer(serializers.ModelSerializer):
