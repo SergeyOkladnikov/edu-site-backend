@@ -22,7 +22,7 @@
   
   1.
 
-  Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах (для проходящих тест)
+  Запрос GET - получение данных о тестах, вопросах, ответах без информации о правильных ответах
 
     http://127.0.0.1:8000/api/participant/quizzes/
     http://127.0.0.1:8000/api/participant/quizzes/{connection_code}
@@ -32,6 +32,9 @@
 
     http://127.0.0.1:8000/api/participant/answers/
     http://127.0.0.1:8000/api/participant/answers/{id}
+    
+    http://127.0.0.1:8000/api/participant/quiz/question-ids/connection_code/{connection_code}/ - данные о quiz со списком id вопросов
+    http://127.0.0.1:8000/api/participant/quiz/question-ids/id/{id}/ - аналогично, но получение через id quiz
 
   2.
 
@@ -64,7 +67,7 @@
   Формат данных в JSON:
     
 Запрос POST/PUT(где это возможно):
-
+*Поле score пока не используется, его не нужно писать в запросах
 Quiz:
 ```
 {
@@ -72,7 +75,7 @@ Quiz:
     "questions": [
         {
             "text": "q1",
-            "order": "1",
+            "score": "1",
             "answers": [
                 {
                     "text": "a",
@@ -95,7 +98,6 @@ Question:
 ```
 {
     "text": "q2",
-    "order": 2,
     "score": 1,
     "answers": [
         {
