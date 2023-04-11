@@ -10,7 +10,7 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     text = models.CharField(max_length=300)
-    order = models.IntegerField()
+    # order = models.IntegerField()
     score = models.IntegerField(default=1)
     correct_answers = models.ManyToManyField('Answer', related_name='correct_answers', blank=True)
     quiz = models.ForeignKey('Quiz', related_name='questions', on_delete=models.CASCADE)
