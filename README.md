@@ -96,6 +96,40 @@ Quiz:
     ]
 }
 ```
+Пример ответа сервера:
+```
+{
+    "id": 48,
+    "connection_code": "test1",
+    "questions": [
+        {
+            "id": 63,
+            "text": "q1",
+            "score": 1,
+            "answers": [
+                {
+                    "id": 229,
+                    "text": "a",
+                    "is_correct": false
+                },
+                {
+                    "id": 230,
+                    "text": "b",
+                    "is_correct": true
+                },
+                {
+                    "id": 231,
+                    "text": "c",
+                    "is_correct": false
+                }
+            ],
+            "correct_answers": [
+                230
+            ]
+        }
+    ]
+}
+```
 Question:
 ```
 {
