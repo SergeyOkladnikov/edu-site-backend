@@ -18,23 +18,26 @@ from django.urls import path, include
 from rest_framework import routers
 from quiz.views.api_views import *
 
-participant_router = routers.SimpleRouter()
-author_router = routers.SimpleRouter()
-
-participant_router.register(r'quizzes', QuizPartialViewSet)
-participant_router.register(r'questions', QuestionPartialViewSet)
-participant_router.register(r'answers', AnswerPartialViewSet)
-participant_router.register(r'quiz/(?P<connection_code>.+)/results', QuizResultViewSet, basename='QuizResult')
-participant_router.register(r'result/(?P<result>.+)/question-results', QuestionResultViewSet)
-
-author_router.register(r'quizzes', QuizViewSet)
-author_router.register(r'quiz/(?P<quiz>.+)/questions', QuestionViewSet, basename='Question')
-author_router.register(r'quiz/(?P<quiz>.+)/question/(?P<question>.+)/answers', AnswerViewSet, basename='Answer')
+# participant_router = routers.SimpleRouter()
+# author_router = routers.SimpleRouter()
+#
+# participant_router.register(r'quizzes', QuizPartialViewSet)
+# participant_router.register(r'questions', QuestionPartialViewSet)
+# participant_router.register(r'answers', AnswerPartialViewSet)
+# participant_router.register(r'quiz/(?P<connection_code>.+)/results', QuizResultViewSet, basename='QuizResult')
+# participant_router.register(r'result/(?P<result>.+)/question-results', QuestionResultViewSet)
+#
+# # participant_router.register(r'quiz/(?P<connection_code>.+)/question-ids', QuizQuestionsIdListVewSet)
+# participant_router.register(r'quiz/question-ids', QuizQuestionsIdListVewSet)
+#
+# author_router.register(r'quizzes', QuizViewSet)
+# author_router.register(r'quiz/(?P<quiz>.+)/questions', QuestionViewSet, basename='Question')
+# author_router.register(r'quiz/(?P<quiz>.+)/question/(?P<question>.+)/answers', AnswerViewSet, basename='Answer')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/participant/', include(participant_router.urls)),
-    path('api/author/', include(author_router.urls)),
-    path('', include('quiz.urls'))
+    # path('api/participant/', include(participant_router.urls)),
+    # path('api/author/', include(author_router.urls)),
+    path('', include('quiz.urls.urls'))
 ]

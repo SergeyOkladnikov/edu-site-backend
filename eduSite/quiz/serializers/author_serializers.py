@@ -2,8 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.exceptions import MethodNotAllowed
 
-from .models import *
-
+from quiz.models import *
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,12 +27,6 @@ class AnswerSerializer(serializers.ModelSerializer):
             question.correct_answers.remove(instance)
 
         return instance
-
-
-# class AnswerNestedSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Answer
-#         fields = ['id', 'text', 'is_correct']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -73,12 +66,6 @@ class QuestionSerializer(serializers.ModelSerializer):
         return instance
 
 
-# class QuestionNestedSerializer(QuestionSerializer):
-#     class Meta:
-#         model = Question
-#         fields = ['id', 'text', 'order', 'score', 'answers', 'correct_answers']
-
-
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
 
@@ -113,91 +100,3 @@ class QuizSerializer(serializers.ModelSerializer):
                     if answer.is_correct:
                         question.correct_answers.add(answer)
         return instance
-
-
-class AnswerPartialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ['id', 'text', 'question']
-
-
-class AnswerPartialNestedSerializer(AnswerPartialSerializer):
-    class Meta:
-        model = Answer
-        fields = ['id', 'text']
-
-
-class QuestionPartialSerializer(serializers.ModelSerializer):
-    answers = AnswerPartialNestedSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Question
-        fields = ['id', 'text', 'score', 'quiz', 'answers']
-
-
-class QuestionPartialNestedSerializer(QuestionPartialSerializer):
-    class Meta:
-        model = Question
-        fields = ['id', 'text', 'score', 'answers']
-
-
-class QuizPartialSerializer(serializers.ModelSerializer):
-    questions = QuestionPartialNestedSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Quiz
-        fields = ['connection_code', 'questions']
-
-
-# class QuestionResultCreationSerializer(serializers.Serializer):
-#     chosen_answers = serializers.PrimaryKeyRelatedField(queryset=Answer.objects.all(), many=True)
-#     is_correct = serializers.BooleanField(required=False)
-#     question = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all())
-#     quiz_result = serializers.PrimaryKeyRelatedField(queryset=QuizResult.objects.all())
-#
-#     class Meta:
-#         fields = ['id', 'chosen_answers', 'is_correct', 'question', 'quiz_result']
-#
-#     def create(self, validated_data):
-#         question = validated_data.get('question', None)
-#         chosen_answers = validated_data.pop('chosen_answers')
-#         result = QuestionResult.objects.create(
-#             is_correct=list(question.correct_answers.all()) == chosen_answers,
-#             **validated_data
-#         )
-#         for answer in chosen_answers:
-#             result.chosen_answers.add(answer)
-#         return result
-
-class QuestionResultSerializer(serializers.ModelSerializer):
-    is_correct = serializers.BooleanField(required=False)
-
-    class Meta:
-        model = QuestionResult
-        fields = ['id', 'chosen_answers', 'is_correct', 'question', 'quiz_result']
-
-    def create(self, validated_data):
-        question = validated_data.get('question', None)
-        chosen_answers = validated_data.pop('chosen_answers')
-        result = QuestionResult.objects.create(
-            is_correct=list(question.correct_answers.all()) == chosen_answers,
-            **validated_data
-        )
-        for answer in chosen_answers:
-            result.chosen_answers.add(answer)
-        return result
-
-
-class QuizResultSerializer(serializers.ModelSerializer):
-    question_results = QuestionResultSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = QuizResult
-        fields = ['id', 'participant', 'question_results']
-
-    def create(self, validated_data):
-        quiz = get_object_or_404(Quiz, connection_code=self.context['view'].kwargs['connection_code'])
-        return QuizResult.objects.create(
-            quiz=quiz,
-            **validated_data
-        )
