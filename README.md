@@ -10,6 +10,13 @@
     pip install djangorestframework
 ```
 2. Использование
+
+   Вспомогательные программы: 
+   
+   Пока сайт в разработке, в качестве БД используется SQLite. Для просмотра использую SQLiteStudio (https://sqlitestudio.pl/)
+   
+   Для проверки API - Postman (https://www.postman.com/)
+   
    
    Запуск тестового сервера:
 ```
