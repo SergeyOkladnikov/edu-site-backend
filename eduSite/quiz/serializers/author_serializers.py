@@ -88,6 +88,7 @@ class QuizSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         questions_data = validated_data.get('questions', None)
         instance.connection_code = validated_data.get('connection_code', instance.connection_code)
+        instance.is_published = validated_data.get('is_published', instance.is_published)
         instance.save()
         if questions_data:
             for item in Question.objects.filter(quiz=instance):
