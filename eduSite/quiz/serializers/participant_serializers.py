@@ -35,7 +35,7 @@ class QuizPartialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['connection_code', 'questions']
+        fields = ['connection_code', 'is_published', 'questions']
 
 
 class QuizQuestionsIdListSerializer(serializers.ModelSerializer):
@@ -43,4 +43,4 @@ class QuizQuestionsIdListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['id', 'connection_code', 'questions']
+        fields = ['id', 'connection_code', 'is_published', 'questions']
