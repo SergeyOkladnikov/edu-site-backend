@@ -81,6 +81,7 @@ Quiz:
 ```
 {
     "connection_code": "test",
+    "is_published": true,
     "questions": [
         {
             "text": "q1",
