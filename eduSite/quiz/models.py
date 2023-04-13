@@ -3,6 +3,7 @@ from django.db import models
 
 class Quiz(models.Model):
     connection_code = models.SlugField(max_length=50, unique=True, db_index=True)
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.connection_code)
