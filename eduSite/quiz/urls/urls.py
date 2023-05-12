@@ -12,7 +12,7 @@ urlpatterns = [
     path('api/participant/', include(participant_router.urls)),
     path('api/author/', include(author_router.urls)),
 
-    path('quiz-solving/<slug:connection_code>/', enter_name, name='name'),
-    path('quiz-solving/<slug:connection_code>/<str:name>/<int:question_number>/', quiz_solving, name='quiz'),
+    # path('quiz-solving/<slug:connection_code>/', enter_name, name='name'),
+    path('quiz-solving/<slug:connection_code>/<int:question_number>/', quiz_solving, name='quiz'),
     path('quiz-results/<str:room_name>/', room, name='room'),
 ]

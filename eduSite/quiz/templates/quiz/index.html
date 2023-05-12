@@ -9,17 +9,19 @@
             <h2>Есть код присоединения?</h2>
             <p>Скорей беги проходить тест</p>
         </div>
-        <form>
-            <input id="code-input" type="text" placeholder="Введи его сюда">
-            <button id="code-submit"></button>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{quiz_connection_form.connection_code}}
+            {{quiz_connection_form.name}}
+            <button type="submit" id="code-submit"></button>
         </form>
     </div>
 </div>
 <script>
-    btn = document.querySelector('#code-submit');
-    btn.onclick = (evt) => {
-        evt.preventDefault()
-        window.location.pathname = '/quiz-solving/' + document.querySelector('#code-input').value + '/';
-    }
+    //btn = document.querySelector('#code-submit');
+    //btn.onclick = (evt) => {
+    //    evt.preventDefault()
+    //    window.location.pathname = '/quiz-solving/' + document.querySelector('#code-input').value + '/';
+    //}
 </script>
 {% endblock %}

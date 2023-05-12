@@ -33,7 +33,7 @@
             'chosen_answers': [target.value]
         }))
         if (parseInt({{question_number}}) + 1 <= {{questions_count}}) {
-            window.location.pathname = 'quiz-solving/{{quiz.connection_code}}/{{name}}/' + (parseInt({{question_number}}) + 1) + '/'
+            window.location.pathname = 'quiz-solving/{{quiz.connection_code}}/' + (parseInt({{question_number}}) + 1) + '/'
         }
         else {
             window.location.pathname = ''
