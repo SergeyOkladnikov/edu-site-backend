@@ -1,0 +1,25 @@
+{% extends 'quiz/base.html' %}
+{% load static %}
+
+{% block content %}
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const quizSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/quiz/'
+        + roomName
+        + '/'
+    );
+
+    quizSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log(data)
+    };
+
+    quizSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+</script>
+{% endblock %}

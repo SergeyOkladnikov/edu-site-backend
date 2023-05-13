@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Name</title>
+</head>
+<body>
+<h2>Введите имя</h2>
+<input id="name-input" type="text" size="100"><br>
+<input id="name-submit" type="button" value="Enter">
+</body>
+<script>
+    btn = document.querySelector('#name-submit');
+    btn.onclick = (evt) => {
+        evt.preventDefault()
+        console.log(window.location.pathname)
+        window.location.pathname += document.querySelector('#name-input').value + '/1/' ;
+    }
+</script>
+</html>

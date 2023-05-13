@@ -2,4 +2,26 @@
 {% load static %}
 
 {% block content %}
+<div class="connection-wrapper">
+    <div class="connection">
+        <img src="./img//connection-code-pic.png" width="348px">
+        <div>
+            <h2>Есть код присоединения?</h2>
+            <p>Скорей беги проходить тест</p>
+        </div>
+        <form id="quiz-connection" action="" method="post">
+            {% csrf_token %}
+            {{quiz_connection_form.connection_code}}
+            {{quiz_connection_form.name}}
+            <button form="quiz-connection" type="submit" id="code-submit"></button>
+        </form>
+    </div>
+</div>
+<script>
+    //btn = document.querySelector('#code-submit');
+    //btn.onclick = (evt) => {
+    //    evt.preventDefault()
+    //    window.location.pathname = '/quiz-solving/' + document.querySelector('#code-input').value + '/';
+    //}
+</script>
 {% endblock %}
