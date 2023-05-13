@@ -1,6 +1,11 @@
+from django.urls import path
 from rest_framework import routers
 from quiz.views.api_views.api_views import *
 from quiz.views.api_views.participant_views import *
+
+urlpatterns = [
+    path(r'quiz/<slug:connection_code>/questions/order/<int:order>', QuestionByOrderAPIView.as_view())
+]
 
 participant_router = routers.SimpleRouter()
 

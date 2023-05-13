@@ -43,6 +43,9 @@
     http://127.0.0.1:8000/api/participant/quiz/question-ids/connection_code/{connection_code}/ - данные о quiz со списком id вопросов
     http://127.0.0.1:8000/api/participant/quiz/question-ids/id/{id}/ - аналогично, но получение через id quiz
 
+    http://127.0.0.1:8000/api/author/quiz/{quiz_id}/questions/order/{номер}
+    http://127.0.0.1:8000/api/participant/quiz/{connection_code}/questions/order/{номер} - получение вопроса по порядковому номеру в тесте
+
   2.
 
   Запросы: GET, POST, PUT, PATCH.
