@@ -24,10 +24,6 @@ def index(request):
 
     return render(request, 'quiz/index.html', context=context)
 
-# def enter_name(request, connection_code):
-#     get_object_or_404(Quiz, connection_code=connection_code)
-#     return render(request, 'quiz/enter-name.html')
-
 def quiz_constructor(request):
     context = {
         'title': 'Создание Quiz'
