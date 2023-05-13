@@ -4,8 +4,20 @@ from .models import Quiz
 
 
 class QuizConnectionForm(forms.Form):
-    connection_code = forms.SlugField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Введи его сюда'}))
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Имя'}))
+    connection_code = forms.SlugField(
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Введи его сюда',
+            'form': 'quiz-connection'
+        })
+    )
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Введи имя сюда:',
+            'form': 'quiz-connection'
+        })
+    )
 
     def clean_connection_code(self):
         connection_code = self.cleaned_data['connection_code']

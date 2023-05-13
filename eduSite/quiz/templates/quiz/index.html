@@ -9,11 +9,11 @@
             <h2>Есть код присоединения?</h2>
             <p>Скорей беги проходить тест</p>
         </div>
-        <form action="" method="post">
+        <form id="quiz-connection" action="" method="post">
             {% csrf_token %}
             {{quiz_connection_form.connection_code}}
             {{quiz_connection_form.name}}
-            <button type="submit" id="code-submit"></button>
+            <button form="quiz-connection" type="submit" id="code-submit"></button>
         </form>
     </div>
 </div>
