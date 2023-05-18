@@ -8,12 +8,11 @@ class Quiz(models.Model):
     def __str__(self):
         return str(self.connection_code)
 
-
 class Question(models.Model):
     text = models.CharField(max_length=300)
     # order = models.IntegerField()
     score = models.IntegerField(default=1)
-    correct_answers = models.ManyToManyField('Answer', related_name='correct_answers', blank=True)
+    # correct_answers = models.ManyToManyField('Answer', related_name='correct_answers', blank=True)
     quiz = models.ForeignKey('Quiz', related_name='questions', on_delete=models.CASCADE)
 
     def __str__(self):

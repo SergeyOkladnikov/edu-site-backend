@@ -1,18 +1,24 @@
 from django.contrib import admin
 from .models import *
 
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'text', 'question', 'is_correct')
 
-class QuizAdmin(admin.ModelAdmin):
-    list_display = ('id', 'connection_code')
-
+class AnswerInline(admin.TabularInline):
+    model = Answer
+    extra = 1
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'text', 'quiz')
+    inlines = [AnswerInline]
 
+class QuestionInline(admin.TabularInline):
+    model = Question
+    extra = 1
 
-class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'text', 'question')
-
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('id', 'connection_code')
+    inlines = [QuestionInline]
 
 class QuizResultAdmin(admin.ModelAdmin):
     list_display = ('id', 'participant', 'quiz')

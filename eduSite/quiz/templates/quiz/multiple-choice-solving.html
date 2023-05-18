@@ -7,10 +7,12 @@
     <h2>{{question.text}}</h2>
     <div class="answers">
         {% for answer in answers %}
-        <button value="{{answer.pk}}">
-            {{answer.text}}
-        </button>
+        <div>
+          <p>{{answer.text}}</p><input type="checkbox" value="{{answer.pk}}">
+        </div>
+
         {% endfor %}
+      <button id="send">Отправить</button>
     </div>
 </div>
 </body>
@@ -22,15 +24,16 @@
             + '{{quiz.pk}}'
             + '/'
         );
-    document.querySelector('.answers').onclick = function test(evt) {
-        const target = evt.target;
-        if (target.tagName != 'BUTTON') {
-            return;
-        }
+    chosenAnswers = [];
+    document.querySelector('#send').onclick = function test(evt) {
+        checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        checkboxes.forEach(c => {
+            chosenAnswers.push(parseInt(c.value));
+        });
         quizSocket.send(JSON.stringify({
             'name': '{{name}}',
             'question': {{question.pk}},
-            'chosen_answers': [target.value]
+            'chosen_answers': chosenAnswers
         }))
         if (parseInt({{question_number}}) + 1 <= {{questions_count}}) {
             window.location.pathname = 'quiz-solving/{{quiz.connection_code}}/' + (parseInt({{question_number}}) + 1) + '/'

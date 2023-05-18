@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block content %}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{quiz_creation_form}}
+        <button type="submit" name="quiz-create">Погнали!</button>
+    </form>
+</div>
 <div class="connection-wrapper">
     <div class="connection">
         <img src="./img//connection-code-pic.png" width="348px">
@@ -13,7 +20,7 @@
             {% csrf_token %}
             {{quiz_connection_form.connection_code}}
             {{quiz_connection_form.name}}
-            <button form="quiz-connection" type="submit" id="code-submit"></button>
+            <button form="quiz-connection" type="submit" name="quiz-connect" id="code-submit"></button>
         </form>
     </div>
 </div>
