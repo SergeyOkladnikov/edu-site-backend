@@ -49,9 +49,10 @@
                 {{form.DELETE}}
                 {{form.id}}
             </div>
-<!--            {{form}}-->
             {% endfor %}
+            <button id="add-form" type="button">+</button>
         </div>
+
         <div class="buttons">
             <button form="q-del" class="button-delete" type="submit">
                 Удалить
@@ -68,4 +69,24 @@
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'quiz/js/quiz-constructor.js' %}" type="module"></script>
+<script>
+    let newAnswer = document.querySelectorAll(".new-answer");
+    let container = document.querySelector(".add-answers");
+    let addButton = document.querySelector("#add-form");
+    let totalForms = document.querySelector("#id_answers-TOTAL_FORMS")
+    let formNum = newAnswer.length - 1
+    function addForm(e) {
+        e.preventDefault();
+
+        let newForm = newAnswer[0].cloneNode(true);
+        let formRegex = RegExp(`answers-(\\d){1}-`,'g');
+
+        formNum++;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `answers-${formNum}-`);
+        container.insertBefore(newForm, addButton);
+
+        totalForms.setAttribute('value', `${formNum+1}`);
+}
+    addButton.addEventListener('click', addForm)
+</script>
 {% endblock %}
