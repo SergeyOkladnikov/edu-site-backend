@@ -8,7 +8,9 @@ from quiz.views.page_views import *
 
 urlpatterns = [
     path('', index, name='home'),
-    path('quiz-constructor/', quiz_constructor, name='quiz_constructor'),
+    path('quiz/<int:quiz_pk>/<int:question_order>/', quiz_constructor, name='quiz_constructor'),
+    path('quiz/<int:quiz_pk>/<int:question_order>/del/', delete_question),
+    path('quiz/<int:quiz_pk>/publish/', publish_quiz),
     path('quiz-preview/', quiz_preview, name='quiz_preview'),
     path('api/participant/', include(participant_router.urls)),
     path('api/participant/', include(participant_urls.urlpatterns)),

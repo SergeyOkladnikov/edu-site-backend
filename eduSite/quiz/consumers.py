@@ -32,9 +32,14 @@ class QuizConsumer(WebsocketConsumer):
         chosen_answers = text_data_json['chosen_answers']
         is_correct = True
         connection_code = self.room_name
-        for a in chosen_answers:
-            if not get_object_or_404(Question, pk=question).answers.get(pk=a).is_correct:
+        print(text_data_json)
+        for a in get_object_or_404(Question, pk=question).answers.all():
+            if a.pk in chosen_answers and not a.is_correct:
                 is_correct = False
+                break
+            if a.pk not in chosen_answers and a.is_correct:
+                is_correct = False
+                break
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {

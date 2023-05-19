@@ -3,81 +3,109 @@
 
 {% block content %}
 <div class="quiz-constructor-container">
-                <div class="phone-wrapper">
-                    <div class="phone-preview">
-                        <output class="question-text" name="question-text" form="question-form">
-                            В каком году родился Иван Грозный?
-                        </output>
-                        <div class="answers">
-                            <output class="answer" id="answer-output-1" form="question-form">
-                                1530
-                            </output>
-                            <output class="answer" id="answer-output-2" form="question-form">
-                                1529
-                            </output>
-                            <output class="answer" id="answer-output-3" form="question-form">
-                                1528
-                            </output>
-                            <output class="answer" id="answer-output-4" form="question-form">
-                                1527
-                            </output>
+    <div class="phone-wrapper">
+        <div class="phone-preview">
+            <output class="question-text" name="question-text" form="question-form">
+                В каком году родился Иван Грозный?
+            </output>
+            <div class="answers">
+                <output class="answer" id="answer-output-1" form="question-form">
+                    1530
+                </output>
+                <output class="answer" id="answer-output-2" form="question-form">
+                    1529
+                </output>
+                <output class="answer" id="answer-output-3" form="question-form">
+                    1528
+                </output>
+                <output class="answer" id="answer-output-4" form="question-form">
+                    1527
+                </output>
 
-                        </div>
-                    </div>
-                    <div class="flipper creation-flipper">
-                        <button class="flip-arrow flip-left"></button>
-                        <div>
-                            <span class="current-question">1</span>/<span class="question-count">1</span>
-                        </div>
-                        <button class="flip-arrow flip-right"></button>
-                    </div>
-                </div>
-                <form class="construction-menu" id="question-form" autocomplete="off">
-                    <input type="text" name="new-question-text" id="q-text" class="new-question-text" placeholder="Введите текст вопроса...">
-                    <div class="add-answers">
-                        <div class="new-answer">
-                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
-                            <label class="radio-correct-label">
-                                <input type="radio" name="correct-question" checked>
-                                <span></span>
-                            </label>
-                        </div>
-                        <div class="new-answer">
-                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
-                            <label class="radio-correct-label">
-                                <input type="radio" name="correct-question">
-                                <span></span>
-                            </label>
-                        </div>
-                        <div class="new-answer">
-                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
-                            <label class="radio-correct-label">
-                                <input type="radio" name="correct-question">
-                                <span></span>
-                            </label>
-                        </div>
-                        <div class="new-answer">
-                            <input type="text" name="answer-text" class="new-answer-text" placeholder="Введите ответ...">
-                            <label class="radio-correct-label">
-                                <input type="radio" name="correct-question">
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button class="button-delete" disabled>
-                            Удалить
-                        </button>
-                        <button class="button-save">
-                            Сохранить
-                        </button>
-                        <button class="full-preview-button">
-                            Предпросмотр
-                        </button>
-                    </div>
-                </form>
             </div>
+        </div>
+        <div class="flipper creation-flipper">
+            <a class="flip-arrow flip-left" href="/quiz/{{quiz_pk}}/{{prev}}"></a>
+            <div>
+                <span class="current-question">{{question_order}}</span>/<span class="question-count">{{questions_count}}</span>
+            </div>
+            <a class="flip-arrow flip-right" href="/quiz/{{quiz_pk}}/{{next}}"></a>
+        </div>
+    </div>
+    <!--Нужна валидация - не давать отправлять, пока нет хотя бы двух ответов, из которых хотя бы 1 отмечен-->
+    <form action="" method="POST" class="construction-menu" id="question-form" autocomplete="off">
+        {% csrf_token %}
+        <!--<input type="text" name="text" class="new-question-text" placeholder="Введите текст вопроса..." maxlength="300" required="" id="id_text">-->
+        {{question_form.text}}
+        {{answers_formset.management_form}}
+
+        <div class="add-answers">
+            {% for form in answers_formset %}
+            {% csrf_token %}
+            <div class="new-answer">
+                <!--<input type="text" name="answers-{номер}-text" class="new-answer-text" placeholder="Введите ответ..." maxlength="100" id="id_answers-{номер}-text">-->
+                {{form.text}}
+                <label class="checkbox-correct-label">
+                    <!--<input type="checkbox" name="answers-{номер}-is_correct" id="id_answers-{номер}-is_correct">-->
+                    {{form.is_correct}}
+                    <span></span>
+                </label>
+                <!--Чекбокс, отвечающий за удаление сохранённого ответа. Нужно:
+                а) сделать красивым и понятным - кастомным, с иконкой ведра или ещё чего
+                (вроде вот нужная статья: https://itchief.ru/html-and-css/styling-checkbox-and-radio, в общем, всё как с чекбоксами is_correct выше)
+                б) (необязательно, но стоило бы) при успешной загрузке js: в идеале: чекбокс спрятан, при опустошении поля сохранённого ответа
+                спрятанный чекбокс отмечается, прячется вся форма, отвечающая за этот ответ. Не в идеале: при нажатии на чекбокс удаления прячется
+                 вся форма, отвечающая за этот ответ -->
+                <!--<input type="checkbox" name="answers-{номер}-DELETE" class="mark-for-deletion" id="id_answers-{номер}-DELETE">-->
+                {{form.DELETE}}
+                <!--скрытое техническое поле-->
+                {{form.id}}
+            </div>
+            {% endfor %}
+            <!--Кнопка добавления новой формы для ответа. Нужно сделать менее уродской, а лучше - спрятать и автоматически активировать при заполнении всех полей-->
+            <button id="add-form" type="button">+</button>
+        </div>
+
+        <div class="buttons">
+            <button form="q-del" class="button-delete" type="submit">
+                Удалить
+            </button>
+            <button type="submit" class="button-save">
+                Сохранить
+            </button>
+        </div>
+        <button form="q-publish" type="submit">
+            Перейти к результатам
+        </button>
+    </form>
+    <form id="q-del" action="del/" method="POST">
+        {% csrf_token %}
+    </form>
+    <form id="q-publish" action="/quiz/{{quiz_pk}}/publish/" method="POST">
+        {% csrf_token %}
+    </form>
+</div>
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'quiz/js/quiz-constructor.js' %}" type="module"></script>
+<script>
+    let newAnswer = document.querySelectorAll(".new-answer");
+    let container = document.querySelector(".add-answers");
+    let addButton = document.querySelector("#add-form");
+    let totalForms = document.querySelector("#id_answers-TOTAL_FORMS")
+    let formNum = newAnswer.length - 1
+    function addForm(e) {
+        e.preventDefault();
+
+        let newForm = newAnswer[0].cloneNode(true);
+        let formRegex = RegExp(`answers-(\\d){1}-`,'g');
+
+        formNum++;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `answers-${formNum}-`);
+        container.insertBefore(newForm, addButton);
+
+        totalForms.setAttribute('value', `${formNum+1}`);
+}
+    addButton.addEventListener('click', addForm)
+</script>
 {% endblock %}
