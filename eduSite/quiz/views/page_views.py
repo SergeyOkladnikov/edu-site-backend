@@ -1,14 +1,15 @@
-from django.forms import inlineformset_factory
+import django.forms
+from django.forms import inlineformset_factory, forms
+from django.forms.formsets import DELETION_FIELD_NAME
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from .. import forms
-from ..forms import QuizForm, DeleteQuestionForm, QuestionForm, AnswerForm
+from ..forms import QuizForm, DeleteQuestionForm, QuestionForm, AnswerForm, QuizConnectionForm, AnswerInlineFormset
 from ..models import *
 
 def index(request):
     if request.method == 'POST':
         if 'quiz-connect' in request.POST:
-            quiz_connection_form = forms.QuizConnectionForm(request.POST)
+            quiz_connection_form = QuizConnectionForm(request.POST)
             quiz_creation_form = QuizForm()
             if quiz_connection_form.is_valid():
                 try:
@@ -19,7 +20,7 @@ def index(request):
                     quiz_connection_form.add_error(None, 'Что-то пошло не так')
         if 'quiz-create' in request.POST:
             quiz_creation_form = QuizForm(request.POST)
-            quiz_connection_form = forms.QuizConnectionForm()
+            quiz_connection_form = QuizConnectionForm()
             if quiz_creation_form.is_valid():
                 try:
                     new_quiz = quiz_creation_form.save()
@@ -28,9 +29,9 @@ def index(request):
                     quiz_creation_form.add_error(None, 'Ошибка создания Quiz')
     else:
         if 'name' in request.COOKIES.keys():
-            quiz_connection_form = forms.QuizConnectionForm({'name': request.COOKIES['name']})
+            quiz_connection_form = QuizConnectionForm({'name': request.COOKIES['name']})
         else:
-            quiz_connection_form = forms.QuizConnectionForm()
+            quiz_connection_form = QuizConnectionForm()
         quiz_creation_form = QuizForm()
 
     context = {
@@ -53,6 +54,7 @@ def quiz_constructor(request, quiz_pk, question_order):
             Question,
             Answer,
             form=AnswerForm,
+            formset=AnswerInlineFormset,
             fields=['text', 'is_correct'],
             extra=1
         )
@@ -75,6 +77,7 @@ def quiz_constructor(request, quiz_pk, question_order):
             Question,
             Answer,
             form=AnswerForm,
+            formset=AnswerInlineFormset,
             fields=['text', 'is_correct'],
             extra=4
         )
@@ -112,6 +115,15 @@ def delete_question(request, quiz_pk, question_order):
     if request.method == 'POST':
         questions[question_order - 1].delete()
         return redirect(f'/quiz/{quiz_pk}/{question_order}')
+
+def publish_quiz(request, quiz_pk):
+    quiz = get_object_or_404(Quiz, pk=quiz_pk)
+    if quiz.questions.all().exists():
+        quiz.is_published = True
+        quiz.save()
+        return redirect(f'/quiz-results/{quiz_pk}')
+    else:
+        return redirect(f'/quiz/{quiz_pk}/1')
 
 def quiz_preview(request):
     context = {

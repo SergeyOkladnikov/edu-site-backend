@@ -66,5 +66,13 @@ class QuizForm(forms.ModelForm):
             })
         }
 
+class AnswerInlineFormset(forms.BaseInlineFormSet):
+    deletion_widget = forms.CheckboxInput(attrs={
+        'class': 'mark-for-deletion'
+    })
+
 class DeleteQuestionForm(forms.Form):
+    pass
+
+class PublishQuizForm(forms.Form):
     pass

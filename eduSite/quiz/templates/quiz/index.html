@@ -3,9 +3,12 @@
 
 {% block content %}
 <div>
-    <form action="" method="post">
+    <form id="quiz-creation" action="" method="post">
         {% csrf_token %}
-        {{quiz_creation_form}}
+        {{quiz_creation_form.connection_code}}<!--<input type="text" name="connection_code" id="create-quiz-code" maxlength="50" required="">-->
+        <!--Стандартное отображение ошибок валидации django. При успешной загрузке javascript его нужно спрятать, включив валидацию на js
+        (код присоединения содержит только латинские буквы, цифры, подчёркивания, дефисы, не повторяется)-->
+        {{quiz_creation_form.errors}}<!--<ul class="errorlist"><li>connection_code<ul class="errorlist"><li>{текст ошибки}</li></ul></li></ul>-->
         <button type="submit" name="quiz-create">Погнали!</button>
     </form>
 </div>
@@ -18,8 +21,13 @@
         </div>
         <form id="quiz-connection" action="" method="post">
             {% csrf_token %}
+            <!--Для элементов формы указан атрибут form, так что их можно выносить за пределы тега <form> без последствий-->
+            <!--<input type="text" name="connection_code" placeholder="Введи его сюда" form="quiz-connection" maxlength="50" required="" id="id_connection_code">-->
             {{quiz_connection_form.connection_code}}
+            <!--<input type="text" name="name" placeholder="Введи имя сюда:" form="quiz-connection" maxlength="100" required="" id="id_name">-->
             {{quiz_connection_form.name}}
+            <!--Аналогично предыдущему списку ошибок валидации-->
+            {{quiz_connection_form.errors}}
             <button form="quiz-connection" type="submit" name="quiz-connect" id="code-submit"></button>
         </form>
     </div>
