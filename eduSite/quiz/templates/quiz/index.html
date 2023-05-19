@@ -7,7 +7,8 @@
         {% csrf_token %}
         {{quiz_creation_form.connection_code}}<!--<input type="text" name="connection_code" id="create-quiz-code" maxlength="50" required="">-->
         <!--Стандартное отображение ошибок валидации django. При успешной загрузке javascript его нужно спрятать, включив валидацию на js
-        (код присоединения содержит только латинские буквы, цифры, подчёркивания, дефисы, не повторяется)-->
+        (код присоединения содержит только латинские буквы, цифры, подчёркивания, дефисы, не повторяется(такого кода не существует, если на
+        запрос GET http://127.0.0.1:8000/api/participant/quizzes/{код}/ получен ответ {"detail":"Not found."})-->
         {{quiz_creation_form.errors}}<!--<ul class="errorlist"><li>connection_code<ul class="errorlist"><li>{текст ошибки}</li></ul></li></ul>-->
         <button type="submit" name="quiz-create">Погнали!</button>
     </form>
