@@ -25,11 +25,11 @@
             </div>
         </div>
         <div class="flipper creation-flipper">
-            <a class="flip-arrow flip-left" href="/quiz/{{quiz_pk}}/{{prev}}"></a>
+            <a class="flip-arrow flip-left" href="/quiz/{{quiz_pk}}/{{prev}}"{% if question_order <= 1 %}style="pointer-events: none;"{% endif %}></a>
             <div>
                 <span class="current-question">{{question_order}}</span>/<span class="question-count">{{questions_count}}</span>
             </div>
-            <a class="flip-arrow flip-right" href="/quiz/{{quiz_pk}}/{{next}}"></a>
+            <a class="flip-arrow flip-right" href="/quiz/{{quiz_pk}}/{{next}}"{% if question_order > questions_count %}style="pointer-events: none;"{% endif %}></a>
         </div>
     </div>
     <!--Нужна валидация - не давать отправлять, пока нет хотя бы двух ответов, из которых хотя бы 1 отмечен-->
@@ -98,6 +98,9 @@
         e.preventDefault();
 
         let newForm = newAnswer[0].cloneNode(true);
+        newForm.querySelector(".new-answer-text").setAttribute('value', '');
+        newForm.querySelector(".checkbox-correct-label input").removeAttribute("checked");
+        newForm.querySelector(".mark-for-deletion").removeAttribute("checked");
         let formRegex = RegExp(`answers-(\\d){1}-`,'g');
 
         formNum++;
