@@ -1,19 +1,13 @@
 # edu-site-backend
-
-   Запуск тестового сервера:
-```
-    cd eduSite
-    python manage.py runserver
-````
-
 Версия Python 3.10.7
 
 1. Установка пакетов:
 ```
     python -m venv venv
     venv\Scripts\activate
-    pip install django
+    pip install django==4.1.5
     pip install djangorestframework
+    pip install channels==3.0.5
 ```
 2. Использование
 
