@@ -1,5 +1,11 @@
 # edu-site-backend
 
+   Запуск тестового сервера:
+```
+    cd eduSite
+    python manage.py runserver
+````
+
 Версия Python 3.10.7
 
 1. Установка пакетов:
