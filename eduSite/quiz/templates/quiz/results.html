@@ -6,7 +6,7 @@
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
     const quizSocket = new WebSocket(
-        'ws://'
+        'wss://'
         + window.location.host
         + '/ws/quiz/'
         + roomName
