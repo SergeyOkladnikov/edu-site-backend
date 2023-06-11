@@ -29,7 +29,9 @@
         }
         quizSocket.send(JSON.stringify({
             'name': '{{name}}',
-            'question': {{question.pk}},
+            'question_pk': {{question.pk}},
+            'question_text': '{{question.text}}',
+            'question_number': {{question_number}},
             'chosen_answers': [parseInt(target.value)]
         }))
         if (parseInt({{question_number}}) + 1 <= {{questions_count}}) {
